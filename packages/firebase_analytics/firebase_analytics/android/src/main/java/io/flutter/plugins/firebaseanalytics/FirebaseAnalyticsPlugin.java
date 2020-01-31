@@ -44,7 +44,7 @@ public class FirebaseAnalyticsPlugin implements MethodCallHandler, FlutterPlugin
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
     onAttachedToEngine(
-        binding.getApplicationContext(), binding.getFlutterEngine().getDartExecutor());
+        binding.getApplicationContext(), binding.getBinaryMessenger());
   }
 
   private void onAttachedToEngine(Context applicationContext, BinaryMessenger binaryMessenger) {
