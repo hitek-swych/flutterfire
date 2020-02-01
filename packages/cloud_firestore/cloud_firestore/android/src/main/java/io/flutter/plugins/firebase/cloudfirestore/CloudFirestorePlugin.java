@@ -64,12 +64,12 @@ public class CloudFirestorePlugin implements MethodCallHandler {
   // Handles are ints used as indexes into the sparse array of active observers
   private int nextListenerHandle = 0;
   private int nextBatchHandle = 0;
-  private final SparseArray<EventObserver> observers = new SparseArray<>();
-  private final SparseArray<DocumentObserver> documentObservers = new SparseArray<>();
-  private final SparseArray<ListenerRegistration> listenerRegistrations = new SparseArray<>();
-  private final SparseArray<WriteBatch> batches = new SparseArray<>();
-  private final SparseArray<Transaction> transactions = new SparseArray<>();
-  private final SparseArray<TaskCompletionSource> completionTasks = new SparseArray<>();
+  private final SparseArray<EventObserver> observers = new SparseArray<EventObserver>();
+  private final SparseArray<DocumentObserver> documentObservers = new SparseArray<DocumentObserver>();
+  private final SparseArray<ListenerRegistration> listenerRegistrations = new SparseArray<ListenerRegistration>();
+  private final SparseArray<WriteBatch> batches = new SparseArray<WriteBatch>();
+  private final SparseArray<Transaction> transactions = new SparseArray<Transaction>();
+  private final SparseArray<TaskCompletionSource> completionTasks = new SparseArray<TaskCompletionSource>();
 
   public static void registerWith(PluginRegistry.Registrar registrar) {
     final MethodChannel channel =
@@ -292,6 +292,7 @@ public class CloudFirestorePlugin implements MethodCallHandler {
           // Invalid type.
         }
       } else if ("array-contains-any".equals(operator)) {
+        @SuppressWarnings("unchecked")
         List<Object> values = (List<Object>) value;
         if (fieldName != null) {
           query = query.whereArrayContainsAny(fieldName, values);
@@ -301,6 +302,7 @@ public class CloudFirestorePlugin implements MethodCallHandler {
           // Invalid type.
         }
       } else if ("in".equals(operator)) {
+        @SuppressWarnings("unchecked")
         List<Object> values = (List<Object>) value;
         if (fieldName != null) {
           query = query.whereIn(fieldName, values);
